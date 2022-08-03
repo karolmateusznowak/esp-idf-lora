@@ -1,24 +1,29 @@
-# esp32-lora-library
+# esp-idf-lora
 ## What is it
-**esp32-lora-library** is a C component to be integrated into ESP32-IDF for sending and receiving data through a LoRa transceiver based on Semtech's SX127_ ICs.
+**esp-lora-library** is a C component to be integrated into ESP32-IDF for sending and receiving data through a LoRa transceiver based on Semtech's SX127_ ICs.
 
 The library itself is based on sandeepmistry's **arduino-LoRa** (https://github.com/sandeepmistry/arduino-LoRa) library for Arduino.
 
-## How to install
-Simply clone the repository and copy the ```components/lora``` directory into your ESP-IDF project directory or into the ```components/``` path of your $IDF_PATH (it will be public to all your projects).
-You can then simply ```#include "lora.h"``` and use its functions.
-Using ```make menuconfig``` there will be LoRa Options to configure (like pin numbers)
+## Installation
+ - clone this repo into the `components` directory of your project
 
-```bash
-git clone https://github.com/Inteform/esp32-lora-library
-cp -r esp32-lora-library/components /path/to/my/esp32/project
-cd /path/to/my/esp32/project
-make menuconfig
-make
-#etc
-```
+## Configuration
 
-## Basic usage
+Pin(s) configuration can be done through ESP-IDFs integrated menuconfig
+under `Component config -> LoRa Configuration`. Just type `make menuconfig` to start
+interactive configuration
+
+By default, the pins are:
+
+Pin | Signal
+--- | ------
+CS | IO15
+RST | IO32
+MISO | IO13
+MOSI | IO12
+SCK | IO14
+
+## Usage
 A simple **sender** program...
 ```c
 #include <stdio.h>
@@ -76,16 +81,3 @@ void app_main()
    xTaskCreate(&task_rx, "task_rx", 2048, NULL, 5, NULL);
 }
 ```
-
-## Connection with the RF module
-By default, the pins used to control the RF transceiver are--
-
-Pin | Signal
---- | ------
-CS | IO15
-RST | IO32
-MISO | IO13 
-MOSI | IO12
-SCK | IO14
-
-but you can reconfigure the pins using ```make menuconfig``` and changing the options in the "LoRa Options --->"
