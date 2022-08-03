@@ -1,6 +1,6 @@
 # esp-idf-lora
 ## What is it
-**esp-lora-library** is a C component to be integrated into ESP32-IDF for sending and receiving data through a LoRa transceiver based on Semtech's SX127_ ICs.
+**esp-lora-library** is a C component to be integrated with the ESP-IDF environment for sending and receiving data through a LoRa transceiver based on SX127x IC(s).
 
 The library itself is based on sandeepmistry's **arduino-LoRa** (https://github.com/sandeepmistry/arduino-LoRa) library for Arduino.
 
@@ -9,7 +9,7 @@ The library itself is based on sandeepmistry's **arduino-LoRa** (https://github.
 
 ## Configuration
 
-Pin(s) configuration can be done through ESP-IDFs integrated menuconfig
+Pin(s) configuration can be done through ESP-IDF's integrated menuconfig
 under `Component config -> LoRa Configuration`. Just type `make menuconfig` to start
 interactive configuration
 
