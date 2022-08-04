@@ -3,41 +3,42 @@ menu "LoRa Configuration"
 config LORA_SPI_HOST
     string "SPI HOST"
     default "VSPI_HOST"
-	SPI Host Device
+    help
+    SPI Host Device
 
 config LORA_CS_GPIO
     int "SPI CS GPIO"
     range 0 35
     default 15
     help
-	Pin Number where the NCS pin of the LoRa module is connected to.
+    Pin Number where the NCS pin of the LoRa module is connected to.
 
 config LORA_RST_GPIO
     int "SPI RST GPIO"
     range 0 35
     default 32
     help
-	Pin Number where the NRST pin of the LoRa module is connected to.
+    Pin Number where the NRST pin of the LoRa module is connected to.
 
 config LORA_MISO_GPIO
     int "SPI MISO GPIO"
     range 0 35
     default 13
     help
-	Pin Number to be used as the MISO SPI signal.
+    Pin Number to be used as the MISO SPI signal.
 
 config LORA_MOSI_GPIO
     int "SPI MOSI GPIO"
     range 0 35
     default 12
     help
-	Pin Number to be used as the MOSI SPI signal.
+    Pin Number to be used as the MOSI SPI signal.
 
 config LORA_SCK_GPIO
     int "SPI SCK GPIO"
     range 0 35
     default 14
     help
-	Pin Number to be used as the SCK SPI signal.
+    Pin Number to be used as the SCK SPI signal.
 
 endmenu
