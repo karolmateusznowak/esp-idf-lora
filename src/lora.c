@@ -1,4 +1,3 @@
-
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_system.h"
@@ -88,9 +87,9 @@ lora_write_reg(int reg, int val)
       .rx_buffer = in  
    };
 
-   gpio_set_level(CONFIG_CS_GPIO, 0);
+   gpio_set_level(CONFIG_LORA_CS_GPIO, 0);
    spi_device_transmit(__spi, &t);
-   gpio_set_level(CONFIG_CS_GPIO, 1);
+   gpio_set_level(CONFIG_LORA_CS_GPIO, 1);
 }
 
 /**
@@ -111,9 +110,9 @@ lora_read_reg(int reg)
       .rx_buffer = in
    };
 
-   gpio_set_level(CONFIG_CS_GPIO, 0);
+   gpio_set_level(CONFIG_LORA_CS_GPIO, 0);
    spi_device_transmit(__spi, &t);
-   gpio_set_level(CONFIG_CS_GPIO, 1);
+   gpio_set_level(CONFIG_LORA_CS_GPIO, 1);
    return in[1];
 }
 
@@ -123,9 +122,9 @@ lora_read_reg(int reg)
 void 
 lora_reset(void)
 {
-   gpio_set_level(CONFIG_RST_GPIO, 0);
+   gpio_set_level(CONFIG_LORA_RST_GPIO, 0);
    vTaskDelay(pdMS_TO_TICKS(1));
-   gpio_set_level(CONFIG_RST_GPIO, 1);
+   gpio_set_level(CONFIG_LORA_RST_GPIO, 1);
    vTaskDelay(pdMS_TO_TICKS(10));
 }
 
@@ -319,21 +318,21 @@ lora_init(void)
    /*
     * Configure CPU hardware to communicate with the radio chip
     */
-   gpio_pad_select_gpio(CONFIG_RST_GPIO);
-   gpio_set_direction(CONFIG_RST_GPIO, GPIO_MODE_OUTPUT);
-   gpio_pad_select_gpio(CONFIG_CS_GPIO);
-   gpio_set_direction(CONFIG_CS_GPIO, GPIO_MODE_OUTPUT);
+   gpio_pad_select_gpio(CONFIG_LORA_RST_GPIO);
+   gpio_set_direction(CONFIG_LORA_RST_GPIO, GPIO_MODE_OUTPUT);
+   gpio_pad_select_gpio(CONFIG_LORA_CS_GPIO);
+   gpio_set_direction(CONFIG_LORA_CS_GPIO, GPIO_MODE_OUTPUT);
 
    spi_bus_config_t bus = {
-      .miso_io_num = CONFIG_MISO_GPIO,
-      .mosi_io_num = CONFIG_MOSI_GPIO,
-      .sclk_io_num = CONFIG_SCK_GPIO,
+      .miso_io_num = CONFIG_LORA_MISO_GPIO,
+      .mosi_io_num = CONFIG_LORA_MOSI_GPIO,
+      .sclk_io_num = CONFIG_LORA_SCK_GPIO,
       .quadwp_io_num = -1,
       .quadhd_io_num = -1,
       .max_transfer_sz = 0
    };
            
-   ret = spi_bus_initialize(VSPI_HOST, &bus, 0);
+   ret = spi_bus_initialize(CONFIG_LORA_SPI_HOST, &bus, 0);
    assert(ret == ESP_OK);
 
    spi_device_interface_config_t dev = {
@@ -344,7 +343,7 @@ lora_init(void)
       .flags = 0,
       .pre_cb = NULL
    };
-   ret = spi_bus_add_device(VSPI_HOST, &dev, &__spi);
+   ret = spi_bus_add_device(CONFIG_LORA_SPI_HOST, &dev, &__spi);
    assert(ret == ESP_OK);
 
    /*
